@@ -1,0 +1,417 @@
+{
+  "version": "1.1.1",
+  "startMessage": {
+    "showToEveryone":false,
+    "showIfUpdateNeeded":false,
+    "excludeFbx":false,
+    "excludeSearch":false,
+    "showUpdatePrompt":true,
+    "explanatoryText":"Message from devs...",
+    "showMoreInfoLink":false,
+    "moreInfoLink":"about_update.md"
+  },
+  "modsConfig": {
+    "moreMenu": {
+      "displayName": "More Menu Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/main/modloadercode.js",
+      "modDescription": {
+        "descriptionName": "More Menu Mod",
+        "authors": [
+          {
+            "name": "Fizhes",
+            "url": "https://www.youtube.com/@Fizhes"
+          },
+          {
+            "name": "ScienceCrafter",
+            "url": "https://www.youtube.com/@sciencecrafter2676"
+          }
+        ],
+        "description": "The most popular mod. Adds options to the menu for more speeds, apple counts and map sizes. Other contributors: BrightyLighty, CarL"
+      },
+      "web": [
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/arrow/modloadercode.js"
+        },
+	{
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/daily_challenge/modloadercode.js"
+        },
+        {
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/mobile_touchpad/modloadercode.js"
+        },
+        {
+          "version": 6,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/hotdog/modloadercode.js"
+        },
+	{
+          "version": 7,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/magnet/modloadercode.js"
+        },
+        {
+          "version": 8,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/gate/modloadercode.js"
+        },
+		{
+          "version": 9,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/new_foods/modloadercode.js"
+        },
+		{
+          "version": 10,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCustomMenuStuff/new_counts/modloadercode.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Full support"
+      }
+    },
+    "levelEditorMod": {
+      "displayName": "Level Editor Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeLevelEditor/main/modloadercode.js",
+      "modDescription": {
+        "descriptionName": "Level Editor Mod",
+        "authors": [
+          {
+            "name": "TF2Llama",
+            "url": "https://www.youtube.com/@TF2Llama"
+          }
+        ],
+        "description": "Click on the board to place walls/fruit etc. Play pre-made levels. Make your own levels. Try the challenge levels."
+      },
+      "web": [
+        {
+          "version": 2,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeLevelEditor/stable_shield/modloadercode.js"
+        },
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeLevelEditor/stable_arrow/modloadercode.js"
+        },
+        {
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeLevelEditor/stable_daily_challenge/modloadercode.js"
+        }
+      ],
+      "mobile": {
+        "support": false,
+        "description": "No support for mobile"
+      }
+    },
+    "mouseMode": {
+      "displayName": "Mouse Mode",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeMouseMode/main/MouseMod.js",
+      "modDescription": {
+        "descriptionName": "Mouse Mode",
+        "authors": [
+          {
+            "name": "TF2Llama",
+            "url": "https://www.youtube.com/@TF2Llama"
+          }
+        ],
+        "description": "Control the snake with your mouse. Slightly buggy."
+      },
+      "web": [
+        {
+          "version": 2,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeMouseMode/stable_shield/modloadercode.js"
+        },
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeMouseMode/arrow/MouseMod.js"
+        },
+        {
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeMouseMode/main/MouseMod.js"
+        },
+        {
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeMouseMode/main/MouseMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Full support"
+      }
+    },
+    "PuddingMod": {
+      "displayName": "Pudding Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/main/PuddingMod.js",
+      "modDescription": {
+        "descriptionName": "Pudding Mod",
+        "authors": [
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "Adds more fruit types, snake skins and game themes. Tracks PBs and other stats. Has a 1 in a million chance of spawning a Golden Apple. And does a lot more!"
+      },
+      "web": [
+        {
+          "version": 1,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/dice_added_version/PuddingMod.js"
+        },
+        {
+          "version": 2,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/shield_stable/PuddingMod.js"
+        },
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/arrow/PuddingMod.js"
+        },
+        {
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/pre_dpad/PuddingMod.js"
+        },
+        {
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/pre_hotdog/PuddingMod.js"
+        },
+        {
+          "version": 6,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/hotdog/PuddingMod.js"
+        },
+        {
+          "version": 7,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/magnet/PuddingMod.js"
+        },
+		{
+          "version": 8,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/broken_gate/PuddingMod.js"
+        },
+        {
+          "version": 9,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/v9/PuddingMod.js"
+        },
+        {
+          "version": 10,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/main/PuddingMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Works, no input display or speedinfo"
+      }
+    },
+    "MorePudding": {
+      "displayName": "More Pudding Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/main/MorePudding.js",
+      "modDescription": {
+        "descriptionName": "More Pudding Mod",
+        "authors": [
+          {
+            "name": "Fizhes",
+            "url": "https://www.youtube.com/@Fizhes"
+          },
+	  {
+            "name": "TF2Llama",
+            "url": "https://www.youtube.com/@TF2Llama"
+          },
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "This is a combination of More Menu Mod, Visibility Mod and Pudding Mod."
+      },
+      "web": [
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/arrow/MorePudding.js"
+        },
+        { 
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/pre_dpad/MorePudding.js"
+        },
+        { 
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/magnet/MorePudding.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Works, but reduced features"
+      }
+    },
+    "VisibilityMod": {
+      "displayName": "Visibility Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/main/VisibilityMod.js",
+      "modDescription": {
+        "descriptionName": "Visibility Mod",
+        "authors": [
+          {
+            "name": "TF2Llama",
+            "url": "https://www.youtube.com/@TF2Llama"
+          },
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "This mod lets you delete different parts of the snake, game elements, and the background. Comes with Pudding Mod."
+      },
+      "web": [
+        {
+          "version": 1,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/shield_working/VisibilityMod.js"
+        },
+        {
+          "version": 2,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/shield_working/VisibilityMod.js"
+        },
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/arrow/VisibilityMod.js"
+        },
+        {
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/main/VisibilityMod.js"
+        },
+        {
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeDeleteStuffMod/main/VisibilityMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Full support"
+      }
+    },
+    "ChessMod": {
+      "displayName": "Chess Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeChess/main/ChessMod.js",
+      "gsmOnly": true,
+      "modDescription": {
+        "descriptionName": "Chess Mod",
+        "authors": [
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "Adds Chess Mode to the game and makes it the only available mode to play."
+      },
+      "web": [
+        {
+          "version": 2,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeChess/main/ChessMod.js"
+        },
+	{
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeChess/main/ChessMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Works"
+      }
+    },
+    "ChimeraMod": {
+      "displayName": "Chimera Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/main/ChimeraMod.js",
+      "modDescription": {
+        "descriptionName": "Chimera Mod",
+        "authors": [
+          {
+            "name": "Fizhes",
+            "url": "https://www.youtube.com/@Fizhes"
+          },
+          {
+            "name": "TF2Llama",
+            "url": "https://www.youtube.com/@TF2Llama"
+          },
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "This is a combination of More Menu Mod, Mouse Mod, Visibility Mod and Pudding Mod."
+      },
+      "web": [
+        {
+          "version": 3,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/arrow/ChimeraMod.js"
+        },
+	{
+          "version": 4,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/pre_dpad/ChimeraMod.js"
+        },
+	{
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakePudding/magnet/ChimeraMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Works, but reduced features"
+      }
+    },
+    "ConwayMod": {
+      "displayName": "Conway Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/ConwayMod/bare_bones_dice_support/ConwayMod.js",
+      "gsmOnly": true,
+      "modDescription": {
+        "descriptionName": "Conway Mod",
+        "authors": [
+          {
+            "name": "cyt",
+            "url": "https://www.youtube.com/@cytrussToo"
+          }
+        ],
+        "description": "This is conway's game of life. Not supported on Tampermonkey."
+      },
+      "web": [
+        {
+          "version": 1,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/ConwayMod/bare_bones_dice_support/ConwayMod.js"
+        }
+      ],
+      "mobile": {
+        "support": false,
+        "description": "Requires a play/pause button to support."
+      }
+    },
+"CandyMod": {
+      "displayName": "Candy Mod",
+      "hasUrl": true,
+      "url": "https://raw.githubusercontent.com/DarkSnakeGang/ConwayMod/bare_bones_dice_support/ConwayMod.js",
+      "gsmOnly": true,
+      "modDescription": {
+        "descriptionName": "Candy Mod",
+        "authors": [
+          {
+            "name": "Yarmiplay",
+            "url": "https://www.youtube.com/@Yarmiplay"
+          }
+        ],
+        "description": "This mod adds Candy Mode after Blender. Each fruit adds snake length between 1 and 6. Including PuddingMod."
+      },
+      "web": [
+        {
+          "version": 5,
+          "url": "https://raw.githubusercontent.com/DarkSnakeGang/GoogleSnakeCandy/main/CandyMod.js"
+        }
+      ],
+      "mobile": {
+        "support": true,
+        "description": "Works as intended."
+      }
+    }
+  }	
+}
+
+
+
+
+

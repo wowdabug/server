@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Countries Quiz</title>
+    <script src="../../scripts/main.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Countries of the World Quiz">
+    <meta name="author" content="Caleb Robinson">
+
+    <link href="css/leaflet.css" rel="stylesheet" />
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Improved UI Container */
+        .game-area {
+            background: #fbf8f3;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            margin: 8px !important;
+            border: none !important;
+        }
+
+        .game-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .game-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Standardized Form Controls */
+        .form-control {
+            padding: 8px 8px;
+            font-size: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* Start/Stop Button Styling */
+        #game-start {
+            background-color: #2ecc71;
+            color: white;
+            cursor: pointer;
+            border: none;
+            flex-grow: 1;
+        }
+        #game-start:hover:not(:disabled) { background-color: #27ae60; }
+        
+        #game-stop {
+            background-color: #e74c3c;
+            color: white;
+            cursor: pointer;
+            border: none;
+            flex-grow: 1;
+        }
+        #game-stop:hover:not(:disabled) { background-color: #c0392b; }
+
+        .btn-disabled {
+            background-color: #7f8c8d !important;
+            cursor: not-allowed;
+        }
+
+        #game-timer {
+            font-size: 1.0rem;
+            font-weight: bold;
+            min-width: 60px;
+        }
+
+        #game-input {
+            width: 250px;
+        }
+
+        #game-score {
+            font-weight: bold;
+            font-size: 1.0rem;
+            min-width: 60px;
+        }
+
+        .checkbox-row {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+		
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-label { font-size: 110%; text-shadow: 1px 1px white; }
+        .game-bad-label { font-size: 110%; color: #e74c3c; }
+    </style>
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/leaflet.js" type="text/javascript"></script>
+    <script src="countries.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        var START_CENTER = [20, -10];
+        var START_ZOOM = 3;
+
+        var countryMarkers = [];
+        var countryLatLons = [];
+        var countryNames = [];
+        var foundCountries = {};
+        var allCountries = {};
+        var foundCount = 0;
+        var totalCount = 0;
+        
+        var timeLeft = 30 * 60;
+        var running = false;
+        var map;
+
+        function updateScore() {
+            $("#game-score").text(foundCount + "/" + totalCount);
+        }
+
+        function initData() {
+            // Clear existing markers if any
+            countryMarkers.forEach(m => map.removeLayer(m));
+            countryMarkers = [];
+            countryNames = [];
+            allCountries = {};
+            foundCountries = {};
+            foundCount = 0;
+
+            // Check if "Include Unrecognized" is checked
+            // This logic assumes your countries.js might have a flag or 
+            // you'd load a different dataset. 
+            var includeOtherStates = $("#include-other-states").is(":checked");
+			var includeDependentTerritories = $("#include-dependent-territories").is(":checked");
+            
+			var countries = states;
+			if (includeOtherStates) {
+				countries = countries.concat(otherStates);
+			}
+			if (includeDependentTerritories) {
+				countries = countries.concat(dependentTerritories);
+			}
+			
+			totalCount = countries.length;
+
+            for (var i = 0; i < totalCount; i++) {
+                var lat = countries[i][0];
+                var lon = countries[i][1];
+                var names = countries[i].slice(2);
+
+                var marker = new L.Marker([lat, lon], {
+                    icon: new L.DivIcon({
+                        className: 'my-div-icon',
+                        html: '<span class="game-label">____</span>'
+                    })
+                }).addTo(map);
+
+                countryNames.push(names[0]);
+                countryMarkers.push(marker);
+                countryLatLons.push([lat, lon]);
+
+                for (var j = 0; j < names.length; j++) {
+                    allCountries[names[j].toLowerCase()] = i;
+                }
+            }
+            updateScore();
+        }
+
+        $(document).ready(function () {
+            // 1. Setup Map without Zoom Controls
+            map = L.map('map', {
+                zoomControl: false, 
+                center: START_CENTER,
+                zoom: START_ZOOM
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO',
+                maxZoom: 15,
+                minZoom: 2,
+            }).addTo(map);
+
+            // 2. Setup Custom UI
+            var gameControl = L.control({ position: 'topleft' });
+            gameControl.onAdd = function() {
+                var div = L.DomUtil.create('div', 'leaflet-control game-area');
+                $(div).html(`
+                    <div class='game-row'>
+                        <input type='button' class='form-control' value='Start Quiz' id='game-start'>
+                        <input type='button' class='form-control btn-disabled' value='Stop' id='game-stop' disabled>
+                        <span id='game-timer'>30:00</span>
+                    </div>
+                    <div class='game-row'>
+                        <input type='text' id='game-input' class='form-control' placeholder='Press start to type...' disabled>
+                        <span id='game-score'>0/0</span>
+                    </div>
+                    <div class='checkbox-row'>
+                        <input type="checkbox" id="include-other-states"> 
+                        <label for="include-other-states">Other states</label>
+                        <input type="checkbox" id="include-dependent-territories"> 
+                        <label for="include-dependent-territories">Dependent territories</label>
+						
+                    </div>
+					<div class="slider-row">
+						<input type="range" id="timer-range" min="0" max="60" value="30" style="width: 266px;"> 
+					</div>
+                `);
+				L.DomEvent.disableClickPropagation(div);
+				L.DomEvent.disableScrollPropagation(div);
+                return div;
+            };
+            gameControl.addTo(map);
+
+            initData();
+
+            // 3. Logic Listeners
+            $("#game-start").click(function () {
+                $(this).prop("disabled", true).addClass('btn-disabled');
+                $("#game-stop").prop("disabled", false).removeClass('btn-disabled');
+                $("#game-input").prop("disabled", false).focus();
+                $("#include-other-states").prop("disabled", true);
+				$("#include-dependent-territories").prop("disabled", true);
+				$("#timer-range").prop("disabled", true);
+                running = true;
+                doTimer();
+            });
+
+            $("#game-stop").click(function () {
+                if (running) {
+                    running = false;
+                    timeLeft = 0;
+                    $(this).prop("disabled", true).addClass('btn-disabled');
+                    endGame();
+                }
+            });
+
+            $("#game-input").keyup(function () {
+                if (!running) return;
+                var query = this.value.toLowerCase().trim();
+                if (query in allCountries) {
+                    var idx = allCountries[query];
+                    if (!(idx in foundCountries)) {
+                        var name = countryNames[idx];
+                        countryMarkers[idx]._icon.innerHTML = '<span class="game-label">' + name + '</span>';
+                        foundCount += 1;
+                        foundCountries[idx] = true;
+                        map.flyTo(countryLatLons[idx], map.getZoom());
+                        $(this).val("");
+                        updateScore();
+                    }
+                }
+            });
+			
+			$("#include-other-states").change(function() {
+				initData();
+			});
+			
+			$("#include-dependent-territories").change(function() {
+				initData();
+			});
+			
+			$("#timer-range").change(function() {
+				var value = $("#timer-range").val();
+				$("#game-timer").text(value.padStart(2, '0') + ":00");
+				timeLeft = value * 60;
+			});		
+
+            function doTimer() {
+                if (timeLeft > 0 && running) {
+                    timeLeft -= 1;
+                    var mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                    var secs = (timeLeft % 60).toString().padStart(2, '0');
+                    $("#game-timer").text(mins + ":" + secs);
+                    setTimeout(doTimer, 1000);
+                } else if (running) {
+                    running = false;
+                    endGame();
+                }
+            }
+
+            function endGame() {
+                $("#game-input").prop("disabled", true);
+                $("#game-timer").text("00:00");
+                for (var i = 0; i < totalCount; i++) {
+                    if (!(i in foundCountries)) {
+                        countryMarkers[i]._icon.innerHTML = '<span class="game-bad-label">' + countryNames[i] + '</span>';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
