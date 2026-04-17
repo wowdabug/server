@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8">
+	
+	<title>Plactions</title>
+	
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	
+	
+	<link rel="shortcut icon" type="image/png" href="./favicon.png">
+	
+	<script src="./progress.js"></script>
+	
+	<script>
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
+		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+			var meta = document.getElementById ("viewport");
+			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+		}
+	</script>
+	
+	<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+#openfl-content {
+  background: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+}
+
+	</style>
+	
+</head>
+<body>
+	
+	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
+	
+	<div id="openfl-content"><progress id="progress" value="0" max = "1"></progress></div>
+	
+	<script>
+		
+		var __filesToLoad = {
+			"./Plactions.js": {total: 2628849}
+		}
+		
+		var __progressBar;
+		
+		var __progressListener = function __progressListener(progress) {
+			if(!__progressBar) __progressBar = document.getElementById("progress");
+			if(__progressBar) __progressBar.value = progress;
+		};
+		
+function resizeGame() {
+  const container = document.getElementById("openfl-content");
+  const canvas = container.querySelector("canvas");
+
+  const baseWidth = 720;
+  const baseHeight = 480;
+  const aspect = baseWidth / baseHeight;
+
+  let windowWidth = window.innerWidth;
+  let windowHeight = window.innerHeight;
+
+  let newWidth = windowWidth;
+  let newHeight = windowWidth / aspect;
+
+  if (newHeight > windowHeight) {
+    newHeight = windowHeight;
+    newWidth = windowHeight * aspect;
+  }
+
+  container.style.width = newWidth + "px";
+  container.style.height = newHeight + "px";
+
+  if (canvas) {
+    canvas.style.width = newWidth + "px";
+    canvas.style.height = newHeight + "px";
+  }
+}
+
+window.addEventListener("resize", resizeGame);
+window.addEventListener("load", function () {
+  setTimeout(resizeGame, 100); // wait for canvas to exist
+});
+
+		var __completionCallback = function __completionCallback() {
+			__progressBar.parentNode.removeChild(__progressBar);
+			lime.embed ("Plactions", "openfl-content", 720, 480, { parameters: {} });
+		};
+
+		__loadWithProgress(__filesToLoad, __progressListener, __completionCallback);
+		
+	</script>
+	
+</body>
+</html>
