@@ -18,26 +18,6 @@
 	<link rel="stylesheet" type="text/css" href="game.css?v1752057774">
 
 	<script type="text/javascript" src="game.js?v1752057774"></script>
-    <script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
-	<!-- AnalyticsCode -->
-
-	<!-- APICode -->  
-	 <script>
-		// To trigger the event Listener adBreakStart
-		document.addEventListener("adBreakStart", () => {
-			console.log("AdBreak Started")
-            ig.game.pauseGame();
-            ig.soundHandler.forceMuteAll();
-		//TODO:  Developer needs to add the logic to pause the game and sound here
-		});  
-		// To trigger the event Listener  adBreakComplete
-		document.addEventListener("adBreakComplete", () => {
-			console.log("adBreak Complete")
-            ig.game.resumeGame();
-            ig.soundHandler.forceUnMuteAll();
-		//TODO:  Developer needs to add the logic to resume the game and sound here
-		});    
-	</script>
 
 </head>
 
