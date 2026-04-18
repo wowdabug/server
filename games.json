@@ -1,412 +1,334 @@
 [
 	{
 		"id":"85",
-		"title":"10 Minutes Till Dawn",
-		"link":"https://wdbgames.github.io/server3/10_minutes_till_dawn/"
+		"title":"10 Minutes Till Dawn"
 	},
 	{
 		"id":"1",
-		"title":"2048",
-		"link":"https://wdbgames.github.io/server1/2048/"
+		"title":"2048"
 	},
 	{
 		"id":"2",
-		"title":"ADOFAI",
-		"link":"https://wdbgames.github.io/server1/a_dance_of_fire_and_ice/"
+		"title":"ADOFAI"
 	},
 	{
 		"id":"3",
-		"title":"Angry Birds",
-		"link":"https://wdbgames.github.io/server3/angry_birds/"
+		"title":"Angry Birds"
 	},
 	{
 		"id":"4",
-		"title":"Appel",
-		"link":"https://wdbgames.github.io/server1/appel/"
+		"title":"Appel"
 	},
 	{
 		"id":"5",
-		"title":"Asteroids",
-		"link":"https://wdbgames.github.io/server1/asteroids/"
+		"title":"Asteroids"
 	},
 	{
 		"id":"6",
-		"title":"Babel Tower",
-		"link":"https://wdbgames.github.io/server1/babel_tower/"
+		"title":"Babel Tower"
 	},
 	{
 		"id":"7",
-		"title":"Baldi's Basics",
-		"link":"https://wdbgames.github.io/server1/baldis_basics/"
+		"title":"Baldi's Basics"
 	},
 	{
 		"id":"8",
-		"title":"Basket Random",
-		"link":"https://wdbgames.github.io/server1/basket_random/"
+		"title":"Basket Random"
 	},
 	{
 		"id":"9",
-		"title":"Battleship",
-		"link":"https://wdbgames.github.io/server1/battleship/"
+		"title":"Battleship"
 	},
 	{
 		"id":"10",
-		"title":"Big Flappy Tower Tiny Square",
-		"link":"https://wdbgames.github.io/server1/big_flappy_tower_tiny_square/"
+		"title":"Big Flappy Tower Tiny Square"
 	},
 	{
 		"id":"11",
-		"title":"Big Tower Tiny Square",
-		"link":"https://wdbgames.github.io/server1/big_tower_tiny_square/"
+		"title":"Big Tower Tiny Square"
 	},
 	{
 		"id":"12",
-		"title":"Big Tower Tiny Square 2",
-		"link":"https://wdbgames.github.io/server1/big_tower_tiny_square_2/"
+		"title":"Big Tower Tiny Square 2"
 	},
 	{
 		"id":"13",
-		"title":"Bitlife",
-		"link":"https://wdbgames.github.io/server1/bitlife/"
+		"title":"Bitlife"
 	},
 	{
 		"id":"14",
-		"title":"Boxing Random",
-		"link":"https://wdbgames.github.io/server1/boxing_random/"
+		"title":"Boxing Random"
 	},
 	{
 		"id":"15",
-		"title":"Brotato",
-		"link":"https://wdbgames.github.io/server2/brotato/"
+		"title":"Brotato"
 	},
 	{
 		"id":"16",
-		"title":"Champion Island",
-		"link":"https://wdbgames.github.io/server3/champion_island/"
+		"title":"Champion Island"
 	},
 	{
 		"id":"17",
-		"title":"CircloO",
-		"link":"https://wdbgames.github.io/server1/circloo/"
+		"title":"CircloO"
 	},
 	{
 		"id":"18",
-		"title":"ClassiCube",
-		"link":"https://wdbgames.github.io/server1/classicube/"
+		"title":"ClassiCube"
 	},
 	{
 		"id":"19",
-		"title":"Cookie Clicker",
-		"link":"https://wdbgames.github.io/server1/cookie_clicker/"
+		"title":"Cookie Clicker"
 	},
 	{
 		"id":"20",
-		"title":"Countries Quiz",
-		"link":"https://wdbgames.github.io/server1/countries_quiz/"
+		"title":"Countries Quiz"
 	},
 	{
 		"id":"21",
-		"title":"Crazy Cattle 3D",
-		"link":"https://wdbgames.github.io/server2/crazy_cattle/"
+		"title":"Crazy Cattle 3D"
 	},
 	{
 		"id":"22",
-		"title":"Death Run",
-		"link":"https://wdbgames.github.io/server1/death_run/"
+		"title":"Death Run"
 	},
 	{
 		"id":"23",
-		"title":"Dino",
-		"link":"https://wdbgames.github.io/server1/dino/"
+		"title":"Dino"
 	},
 	{
 		"id":"24",
-		"title":"Dodge",
-		"link":"https://wdbgames.github.io/server1/dodge/"
+		"title":"Dodge"
 	},
 	{
 		"id":"83",
-		"title":"Doodle Baseball",
-		"link":"https://wdbgames.github.io/server1/doodle_baseball/"
+		"title":"Doodle Baseball"
 	},
 	{
 		"id":"25",
-		"title":"Doodle Jump",
-		"link":"https://wdbgames.github.io/server1/doodle_jump/"
+		"title":"Doodle Jump"
 	},
 	{
 		"id":"26",
-		"title":"Doom",
-		"link":"https://wdbgames.github.io/server1/doom/"
+		"title":"Doom"
+	},
+	{
+		"id":"0",
+		"title":"Drift Boss"
 	},
 	{
 		"id":"79",
-		"title":"Emulator",
-		"link": "https://wdbgames.github.io/server3/emulator/"
+		"title":"Emulator"
 	},
 	{
 		"id":"27",
-		"title":"Flappy Bird",
-		"link":"https://wdbgames.github.io/server1/flappy_bird/"
+		"title":"Flappy Bird"
 	},
 	{
 		"id":"80",
-		"title":"Flash",
-		"link": "https://wdbgames.github.io/server3/flash/"
+		"title":"Flash"
 	},
 	{
 		"id":"87",
-		"title":"Google Snake",
-		"link":"https://wdbgames.github.io/server1/google_snake/"
+		"title":"Google Snake"
 	},
 	{
 		"id":"29",
-		"title":"Granny",
-		"link": "https://wdbgames.github.io/server3/granny/"
+		"title":"Granny"
 	},
 	{
 		"id":"30",
-		"title":"Handulum+",
-		"link": "https://wdbgames.github.io/server1/handulum+/"
+		"title":"Handulum+"
 	},
 	{
 		"id":"31",
-		"title":"HexaClicker",
-		"link": "https://wdbgames.github.io/server1/hexaclicker/"
+		"title":"HexaClicker"
 	},
 	{
 		"id":"32",
-		"title":"Idle Breakout",
-		"link": "https://wdbgames.github.io/server1/idle_breakout/"
+		"title":"Idle Breakout"
 	},
 	{
 		"id":"33",
-		"title":"Idle Dice",
-		"link": "https://wdbgames.github.io/server1/idle_dice/"
+		"title":"Idle Dice"
 	},
 	{
 		"id":"34",
-		"title":"Jelly Mario",
-		"link": "https://wdbgames.github.io/server1/jelly_mario/"
+		"title":"Jelly Mario"
 	},
 	{
 		"id":"35",
-		"title":"Just a Platformer",
-		"link": "https://wdbgames.github.io/server3/just_a_platformer/"
+		"title":"Just a Platformer"
 	},
 	{
 		"id":"36",
-		"title":"Level Devil",
-		"link": "https://wdbgames.github.io/server1/level_devil/"
+		"title":"Level Devil"
 	},
 	{
 		"id":"37",
-		"title":"Magic Cat Academy",
-		"link": "https://wdbgames.github.io/server1/magic_cat_academy/"
+		"title":"Magic Cat Academy"
 	},
 	{
 		"id":"38",
-		"title":"Minesweeper",
-		"link": "https://wdbgames.github.io/server1/minesweeper/"
+		"title":"Minesweeper"
 	},
 	{
 		"id":"39",
-		"title":"Mini Golf",
-		"link": "https://wdbgames.github.io/server1/mini_golf/"
+		"title":"Mini Golf"
 	},
 	{
 		"id":"40",
-		"title":"Moto X3M",
-		"link": "https://wdbgames.github.io/server1/moto_x3m/"
+		"title":"Moto X3M"
 	},
 	{
 		"id":"41",
-		"title":"Mr. Mine",
-		"link": "https://wdbgames.github.io/server1/mr_mine/"
+		"title":"Mr. Mine"
 	},
 	{
 		"id":"84",
-		"title":"N-gon",
-		"link": "https://wdbgames.github.io/server1/n-gon/"
+		"title":"N-gon"
 	},
 	{
 		"id":"42",
-		"title":"OvO",
-		"link": "https://wdbgames.github.io/server3/ovo/"
+		"title":"OvO"
 	},
 	{
 		"id":"43",
-		"title":"Pen Football",
-		"link": "https://wdbgames.github.io/server1/pen_football/"
+		"title":"Pen Football"
 	},
 	{
 		"id":"45",
-		"title":"Pixels Filling Squares",
-		 "link": "https://wdbgames.github.io/server1/pixels_filling_squares/"
+		"title":"Pixels Filling Squares"
 	},
 	{
 		"id":"86",
-		"title":"Plactions",
-		"link": "https://wdbgames.github.io/server2/plactions/"
+		"title":"Plactions"
 	},
 	{
 		"id":"47",
-		"title":"Planet Clicker",
-		"link": "https://wdbgames.github.io/server1/planet_clicker/"
+		"title":"Planet Clicker"
 	},
 	{
 		"id":"48",
-		"title":"Plug Away",
-		"link": "https://wdbgames.github.io/server1/plug_away/"
+		"title":"Plug Away"
 	},
 	{
 		"id":"49",
-		"title":"Plug Away 2",
-		"link": "https://wdbgames.github.io/server1/plug_away_2/"
+		"title":"Plug Away 2"
 	},
 	{
 		"id":"50",
-		"title":"PolyTrack",
-		"link": "https://wdbgames.github.io/server3/polytrack/"
+		"title":"PolyTrack"
 	},
 	{
 		"id":"51",
-		"title":"Retro Bowl",
-		"link": "https://wdbgames.github.io/server1/retro_bowl/"
+		"title":"Retro Bowl"
 	},
 	{
 		"id":"52",
-		"title":"Retro Flight Sim",
-		"link": "https://wdbgames.github.io/server1/retro_flight_sim/"
+		"title":"Retro Flight Sim"
 	},
 	{
 		"id":"53",
-		"title":"Rooftop Snipers 2",
-		"link": "https://wdbgames.github.io/server1/rooftop_snipers_2/"
+		"title":"Rooftop Snipers 2"
 	},
 	{
 		"id":"55",
-		"title":"Sand Game",
-		"link": "https://wdbgames.github.io/server1/sand_game/"
+		"title":"Sand Game"
 	},
 	{
 		"id":"56",
-		"title":"Sandboxels",
-		"link": "https://wdbgames.github.io/server1/sandboxels/"
+		"title":"Sandboxels"
 	},
 	{
 		"id":"81",
-		"title":"Sandspiel",
-		"link": "https://wdbgames.github.io/server1/sandspiel/"
+		"title":"Sandspiel"
 	},
 	{
 		"id":"57",
-		"title":"Sandtris",
-		"link": "https://wdbgames.github.io/server1/sandtris/"
+		"title":"Sandtris"
 	},
 	{
 		"id":"58",
-		"title":"Scratch Flight Sim",
-		"link": "https://wdbgames.github.io/server1/scratch_flight_sim/"
+		"title":"Scratch Flight Sim"
 	},
 	{
 		"id":"59",
-		"title":"Slope",
-		"link": "https://wdbgames.github.io/server1/slope/"
+		"title":"Slope"
 	},
 	{
 		"id":"60",
-		"title":"Slow Roads",
-		"link": "https://wdbgames.github.io/server1/slow_roads/"
+		"title":"Slow Roads"
 	},
 	{
 		"id":"61",
-		"title":"Snow Rider 3D",
-		"link": "https://wdbgames.github.io/server1/snow_rider/"
+		"title":"Snow Rider 3D"
 	},
 	{
 		"id":"62",
-		"title":"Soccer Random",
-		"link": "https://wdbgames.github.io/server1/soccer_random/"
+		"title":"Soccer Random"
 	},
 	{
 		"id":"82",
-		"title":"Space Waves",
-		"link": "https://wdbgames.github.io/server1/space_waves/"
+		"title":"Space Waves"
 	},
 	{
 		"id":"63",
-		"title":"Spacebar Clicker",
-		"link": "https://wdbgames.github.io/server1/spacebar_clicker/"
+		"title":"Spacebar Clicker"
 	},
 	{
 		"id":"64",
-		"title":"Stack",
-		"link": "https://wdbgames.github.io/server1/stack/"
+		"title":"Stack"
 	},
 	{
 		"id":"65",
-		"title":"Stickman Hook",
-		"link": "https://wdbgames.github.io/server1/stickman_hook/"
+		"title":"Stickman Hook"
 	},
 	{
 		"id":"66",
-		"title":"Surf",
-		"link": "https://wdbgames.github.io/server1/surf/"
+		"title":"Surf"
 	},
 	{
 		"id":"67",
-		"title":"Tag",
-		"link": "https://wdbgames.github.io/server1/tag/"
+		"title":"Tag"
 	},
 	{
 		"id":"68",
-		"title":"The Final Earth 2",
-		"link": "https://wdbgames.github.io/server1/the_final_earth_2/"
+		"title":"The Final Earth 2"
 	},
 	{
 		"id":"70",
-		"title":"Townscaper",
-		"link": "https://wdbgames.github.io/server3/townscaper/"
+		"title":"Townscaper"
 	},
 	{
 		"id":"71",
-		"title":"Tunnel Rush",
-		"link": "https://wdbgames.github.io/server1/tunnel_rush/"
+		"title":"Tunnel Rush"
 	},
 	{
 		"id":"72",
-		"title":"TWHG",
-		"link": "https://wdbgames.github.io/server1/twhg/"
+		"title":"TWHG"
 	},
 	{
 		"id":"73",
-		"title":"TWHG 2",
-		"link": "https://wdbgames.github.io/server1/twhg_2/"
+		"title":"TWHG 2"
 	},
 	{
 		"id":"74",
-		"title":"Undertale",
-		"link": "https://wdbgames.github.io/server2/undertale/"
+		"title":"Undertale"
 	},
 	{
 		"id":"75",
-		"title":"Universal Paperclips",
-		"link": "https://wdbgames.github.io/server1/universal_paperclips/"
+		"title":"Universal Paperclips"
 	},
 	{
 		"id":"76",
-		"title":"Volley Random",
-		"link": "https://wdbgames.github.io/server1/volley_random/"
+		"title":"Volley Random"
 	},
 	{
 		"id":"77",
-		"title":"Wordle",
-		"link": "https://wdbgames.github.io/server1/wordle/"
+		"title":"Wordle"
 	},
 	{
 		"id":"78",
-		"title":"Worldle",
-		"link": "https://wdbgames.github.io/server1/worldle/"
+		"title":"Worldle"
 	}
 ]
