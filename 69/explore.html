@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H57NFG20DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H57NFG20DE');
+    </script>
+
+    <title>Colordle 3D - Explore Named Color Space</title>
+    <meta name="description" content="Colordle 3D: Visualize the CIELAB named color space in 3D for colordle help.">
+    <meta property="og:title" content="Colordle 3D Color Explorer">
+    <meta property="og:url" content="https://osmanyo.github.io/colordle/explore.html">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0%25' stop-color='red'%3E%3Canimate attributeName='stop-color' values='red;violet;blue;cyan;green;yellow;red' dur='4s' repeatCount='indefinite' /%3E%3C/stop%3E%3Cstop offset='100%25' stop-color='yellow'%3E%3Canimate attributeName='stop-color' values='yellow;red;violet;blue;cyan;green;yellow' dur='4s' repeatCount='indefinite' /%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext y='.9em' font-size='90' font-family='Arial, sans-serif' font-weight='bold' fill='url(%23g)'%3EC%3C/text%3E%3C/svg%3E"><style>
+        
+        
+        
+        
+
+        /* PREVENT SCROLLING / BOUNCING ON MOBILE */
+        html, body { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            overflow: hidden; background: #050505; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            user-select: none; -webkit-user-select: none; 
+            touch-action: none; /* Critical for smooth controls */
+        }
+        
+        /* --- UI OVERLAYS --- */
+        
+        #instructions {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; text-align: center; pointer-events: none;
+            background: rgba(0,0,0,0.85); padding: 30px; border-radius: 12px;
+            border: 1px solid #555; width: 400px; max-width: 85%;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); z-index: 10;
+        }
+
+        #githubIcon {
+            position: absolute; top: 20px; right: 60px; /* Left of settings */
+            cursor: pointer; z-index: 20; opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        #githubIcon:hover { opacity: 1; }
+
+        #instructions a { pointer-events: auto; cursor: pointer; }
+        
+        #crosshair {
+            position: absolute; top: 50%; left: 50%; width: 8px; height: 8px;
+            background: rgba(255, 255, 255, 0.8); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+            mix-blend-mode: difference; z-index: 5;
+            transition: width 0.1s, height 0.1s;
+        }
+
+        /* HUD */
+        #hud {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            text-align: center;
+            max-width: 90%;
+            pointer-events: none;
+            color: #fff; font-family: monospace; 
+            background: rgba(0,0,0,0.6); padding: 10px 25px; border-radius: 30px;
+            border: 1px solid #444; display: none; 
+            backdrop-filter: blur(4px);
+        }
+
+        /* SETTINGS PANEL */
+        #settingsIcon {
+            position: absolute; top: 20px; right: 20px; cursor: pointer; z-index: 20; opacity: 0.7;
+        }
+        #settingsIcon:hover { opacity: 1; }
+        #settingsIcon svg { width: 24px; height: 24px; fill: white; }
+
+        #settingsPanel {
+            position: absolute; top: 60px; right: 20px; width: 260px;
+            background: rgba(20, 20, 20, 0.95); border: 1px solid #444;
+            padding: 15px; border-radius: 8px; color: white;
+            display: none; z-index: 20;
+            
+        }
+
+        
+
+        .setting-row { margin-bottom: 12px; }
+        .setting-label-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+        .setting-label { font-size: 12px; color: #aaa; }
+        .setting-value { font-size: 12px; color: #00d2ff; font-weight: bold; }
+        
+        input[type=range] { width: 100%; cursor: pointer; }
+        select, input[type=text] { 
+            width: 100%; background: #111; color: white; 
+            border: 1px solid #555; padding: 6px; border-radius: 4px; box-sizing: border-box;
+        }
+        button#goBtn {
+            width: 100%; margin-top: 5px; padding: 6px; cursor: pointer;
+            background: #00d2ff; border: none; font-weight: bold; border-radius: 4px;
+        }
+
+        .key { border: 1px solid #888; padding: 2px 6px; border-radius: 4px; font-weight: bold; background: #222; }
+
+        #loading {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            color: #00d2ff; font-family: monospace; font-weight: bold;
+        }
+        
+        .lab-desc { font-size: 12px; color: #aaa; margin-top: 10px; line-height: 1.4; text-align: left;}
+
+        /* MOBILE HINT */
+        #mobileHint {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            color: rgba(255,255,255,0.5); text-align: center; width: 100%;
+            font-size: 12px; pointer-events: none; display: none;
+            text-shadow: 0 1px 2px rgba(0,0,0,1);
+        }
+        
+        /* Virtual Joystick Zone Visuals (Optional, for debugging areas) */
+        .touch-zone { position: absolute; top:0; height: 100%; width: 50%; z-index: 1; }
+        #leftZone { left: 0; }
+        #rightZone { right: 0; }
+
+        #compassContainer {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            z-index: 100;
+            pointer-events: none; /* Let clicks pass through to the game */
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading">Loading Universe...</div>
+    <div id="crosshair"></div>
+    <div id="compassContainer"></div>
+    
+    <!-- Touch Zones (Invisible) -->
+    <div id="leftZone" class="touch-zone"></div>
+    <div id="rightZone" class="touch-zone"></div>
+
+    <!-- SETTINGS ICON -->
+    <div id="settingsIcon">
+        <svg viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+    </div>
+
+    <a id="githubIcon" href="https://github.com/osmanyo/colordle" target="_blank" title="Visit GitHub">
+        <svg viewBox="0 0 98 96" width="24" height="24">
+            <path fill="white" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" />
+        </svg>
+    </a>
+
+    <!-- SETTINGS PANEL -->
+    <div id="settingsPanel">
+        <div class="setting-row">
+            <label class="setting-label">Find Color (Name or Hex)</label>
+            <input type="text" id="searchInput" placeholder="e.g. Red or #ff0000">
+            <button id="goBtn">Teleport</button>
+        </div>
+        <hr style="border-color: #333; margin: 15px 0;">
+        
+        <div class="setting-row">
+            <div class="setting-label-row">
+                <span class="setting-label">Dot Size</span>
+                <span id="sizeVal" class="setting-value">1.5</span>
+            </div>
+            <input type="range" id="sizeSlider" min="0.05" max="10" step="0.05" value="1.5">
+        </div>
+
+        <div class="setting-row">
+            <label class="setting-label">Shape</label>
+            <select id="shapeSelect">
+                <option value="square">Square</option>
+                <option value="circle" selected>Circle</option>
+            </select>
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-label-row">
+                <span class="setting-label">Fly Speed</span>
+                <span id="speedVal" class="setting-value">0.5</span>
+            </div>
+            <input type="range" id="speedSlider" min="0.01" max="4" step="0.1" value="0.5">
+        </div>
+        
+        <!-- FPS TOGGLE -->
+        <div class="setting-row" style="display: flex; align-items: center; justify-content: space-between;">
+            <label for="fpsToggle" style="margin:0;">Show FPS</label>
+            <input type="checkbox" id="fpsToggle" style="width: auto; cursor: pointer;">
+        </div>
+
+        <div class="setting-row" id="dictSelectorContainer"></div>
+    </div> <!-- Closing settingsPanel -->
+    </div>
+    
+    <!-- START SCREEN -->
+    <div id="instructions">
+        <h1>Color Space (LAB)</h1>
+
+        <div style="font-size: 13px; color: #aaa; margin-bottom: 15px; line-height: 1.4;">
+            This space includes only the named colors from the full list 
+            <a href="https://github.com/meodai/color-names" target="_blank" style="color: #00d2ff; text-decoration: none; border-bottom: 1px dotted #00d2ff;">available here</a>.
+        </div>
+
+        <p>Hover over dots to see color names.</p>
+        <hr style="border-color: #333; margin: 15px 0;">
+        <p>Move: <span class="key">W</span> <span class="key">A</span> <span class="key">S</span> <span class="key">D</span></p>
+        <p>Fly Up: <span class="key">Space</span> / Down: <span class="key">Shift</span></p>
+        <p>Look: <b>Mouse</b></p>
+        
+        <div class="lab-desc">
+            <b>What is this?</b><br>
+            This is the <b>CIELAB</b> color space. Unlike RGB (a cube), LAB organizes colors by how humans perceive them.<br><br>
+            <b>↑ Up/Down (L):</b> Lightness<br>
+            <b>↔ X Axis (A):</b> Green vs Red<br>
+            <b>↔ Z Axis (B):</b> Blue vs Yellow<br><br>
+            You can teleport to a given color name from the settings on the top right.
+        </div>
+
+        <p id="startMsg" style="margin-top:20px; font-size:0.9em; color:#888;">Click to Start. Press <b>ESC</b> for Settings.</p>
+
+        <a href="index.html" style="display: block; margin-top: 15px; color: #00d2ff; text-decoration: none; font-weight: bold; pointer-events: auto;">
+            ← Back to Colordle
+        </a>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div id="colorName" style="font-size: 1.4em; font-weight: bold;">---</div>
+        <div id="colorHex" style="color: #ccc; font-size: 0.9em; margin-top:2px;">---</div>
+    </div>
+
+    <!-- MOBILE HINT -->
+    <div id="mobileHint">Left: Drag to Move • Right: Drag to Look</div>
+
+    <script type="module">
+        import * as THREE from 'https://esm.sh/three@0.160.0';
+        import { PointerLockControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/PointerLockControls.js';
+        import { converter, parse } from 'https://esm.sh/culori@3';
+        import Stats from 'https://esm.sh/three@0.160.0/examples/jsm/libs/stats.module.js';
+        import { ALL_COLORS, setupDictionarySelector } from './dictionary.js';
+
+        let isInitialUniverseLoad = true;
+        let externalMarker = null; // Holds the "unnamed" color dot
+
+    // SETUP STATS (Hidden by default)
+    const stats = new Stats();
+    stats.dom.style.display = 'none'; // Default Off
+    document.body.appendChild(stats.dom);
+
+    // WIRE UP SETTINGS CHECKBOX
+    const fpsToggle = document.getElementById('fpsToggle');
+    fpsToggle.addEventListener('change', (e) => {
+        stats.dom.style.display = e.target.checked ? 'block' : 'none';
+    });
+
+        let settings = {
+            speed: 0.5,
+            friction: 0.85, 
+            pointSize: 1.5
+        };
+
+        const sizeSlider = document.getElementById('sizeSlider');
+        const speedSlider = document.getElementById('speedSlider');
+
+        sizeSlider.value = settings.pointSize;
+        speedSlider.value = settings.speed;
+
+        document.getElementById('sizeVal').innerText = settings.pointSize;
+        document.getElementById('speedVal').innerText = settings.speed;
+
+
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        // --- THREE.JS SETUP ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050505);
+        scene.fog = new THREE.FogExp2(0x050505, 0.0015);
+        // --- RAYCASTER SETUP ---
+        const raycaster = new THREE.Raycaster();
+        const center = new THREE.Vector2(0, 0); // (0,0) is the center of the screen
+        raycaster.params.Points.threshold =  settings.pointSize / 2.5; // How "thick" the laser is. Adjust this if selecting is too hard/easy.
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
+        document.body.appendChild(renderer.domElement);
+
+           // --- MINI-COMPASS WIDGET (RE-FIXED) ---
+const compassContainer = document.getElementById('compassContainer');
+const compassRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+compassRenderer.setSize(120, 120);
+compassRenderer.setPixelRatio(window.devicePixelRatio);
+compassContainer.appendChild(compassRenderer.domElement);
+
+const compassScene = new THREE.Scene();
+
+// We use a fixed camera that NEVER moves
+const compassCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 10);
+compassCamera.position.set(0, 0, 5); 
+compassCamera.lookAt(0, 0, 0);
+
+// This group will hold all our arrows so we can rotate them together
+const compassGroup = new THREE.Group();
+compassScene.add(compassGroup);
+
+// Create Axis Arrows
+function createCompassArrow(dir, color, labelText) {
+    const arrowGroup = new THREE.Group();
+    
+    // The Arrow (Intersects at 0,0,0)
+    const arrow = new THREE.ArrowHelper(dir, new THREE.Vector3(0,0,0), 1.2, color, 0.4, 0.25);
+    arrowGroup.add(arrow);
+
+    // Text Label
+    const canvas = document.createElement('canvas');
+    canvas.width = 64; canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+    ctx.font = 'bold 30px Arial'; ctx.fillStyle = color;
+    ctx.textAlign = 'center'; ctx.fillText(labelText, 32, 40);
+    
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ 
+        map: new THREE.CanvasTexture(canvas), transparent: true 
+    }));
+    sprite.position.copy(dir).multiplyScalar(1.5); // Move label to the tip
+    sprite.scale.set(0.8, 0.8, 1);
+    arrowGroup.add(sprite);
+    
+    compassGroup.add(arrowGroup);
+}
+
+// Add the 6 directions
+createCompassArrow(new THREE.Vector3(1, 0, 0), '#ff4444', '+a');  // Red
+createCompassArrow(new THREE.Vector3(-1, 0, 0), '#44ff44', '-a'); // Green
+createCompassArrow(new THREE.Vector3(0, 1, 0), '#ffffff', '+L');  // White
+createCompassArrow(new THREE.Vector3(0, -1, 0), '#888888', '-L'); // Grey
+createCompassArrow(new THREE.Vector3(0, 0, 1), '#ffff44', '+b');  // Yellow
+createCompassArrow(new THREE.Vector3(0, 0, -1), '#4444ff', '-b'); // Blue
+
+// Add a tiny white sphere at the intersection point (the core)
+const core = new THREE.Mesh(
+    new THREE.SphereGeometry(0.1, 8, 8),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+);
+compassGroup.add(core);
+
+
+        // --- CONTROLS LOGIC ---
+        let controls;
+        if (!isMobile) {
+            controls = new PointerLockControls(camera, document.body);
+            
+            document.addEventListener('click', (e) => {
+                if(e.target.closest('#settingsIcon') || e.target.closest('#settingsPanel') || e.target.closest('a')) return;
+                controls.lock(
+            {unadjustedMovement: true,}
+                );
+            });
+
+            controls.addEventListener('lock', () => {
+                document.getElementById('instructions').style.display = 'none';
+                document.getElementById('settingsPanel').style.display = 'none';
+                document.getElementById('hud').style.display = 'block';
+            });
+            controls.addEventListener('unlock', () => {
+                document.getElementById('instructions').style.display = 'block';
+                document.getElementById('hud').style.display = 'none';
+            });
+        } else {
+            // Mobile Setup
+            document.getElementById('startMsg').innerText = "Tap to Start";
+            
+            document.addEventListener('click', (e) => {
+                if(e.target.closest('#settingsIcon') || e.target.closest('#settingsPanel') || e.target.closest('a')) return;
+                
+                // Fullscreen trigger
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                }
+
+                document.getElementById('instructions').style.display = 'none';
+                document.getElementById('settingsPanel').style.display = 'none';
+                document.getElementById('hud').style.display = 'block';
+                document.getElementById('mobileHint').style.display = 'block';
+            });
+        }
+
+        // --- INPUT HANDLING ---
+        const velocity = new THREE.Vector3();
+        const move = { fwd: false, bwd: false, left: false, right: false, up: false, down: false };
+        
+        // Mobile Variables
+        const touchInput = { x: 0, z: 0 }; 
+        const lookSpeed = 0.004;
+
+        // PC Keyboard
+        document.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'KeyW': move.fwd = true; break;
+                case 'KeyS': move.bwd = true; break;
+                case 'KeyA': move.left = true; break;
+                case 'KeyD': move.right = true; break;
+                case 'Space': move.up = true; break;
+                case 'ShiftLeft': move.down = true; break;
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            switch(e.code) {
+                case 'KeyW': move.fwd = false; break;
+                case 'KeyS': move.bwd = false; break;
+                case 'KeyA': move.left = false; break;
+                case 'KeyD': move.right = false; break;
+                case 'Space': move.up = false; break;
+                case 'ShiftLeft': move.down = false; break;
+            }
+        });
+
+        // --- REVISED MOBILE TOUCH LOGIC (SMOOTHER) ---
+        if (isMobile) {
+            const halfWidth = window.innerWidth / 2;
+            let moveTouchId = -1;
+            let lookTouchId = -1;
+            
+            // We store the LAST position to calculate delta for looking
+            let lastLookX = 0;
+            let lastLookY = 0;
+            let moveOriginX = 0;
+            let moveOriginY = 0;
+
+            document.addEventListener('touchstart', (e) => {
+                if(e.target.closest('#settingsPanel') || e.target.closest('#settingsIcon')) return;
+
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    const t = e.changedTouches[i];
+                    if (t.pageX < halfWidth && moveTouchId === -1) {
+                        // Left Thumb: Movement Stick anchor
+                        moveTouchId = t.identifier;
+                        moveOriginX = t.pageX;
+                        moveOriginY = t.pageY;
+                        touchInput.x = 0;
+                        touchInput.z = 0;
+                    } else if (t.pageX > halfWidth && lookTouchId === -1) {
+                        // Right Thumb: Look anchor
+                        lookTouchId = t.identifier;
+                        lastLookX = t.pageX;
+                        lastLookY = t.pageY;
+                    }
+                }
+            }, {passive: false});
+
+            document.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // No scrolling
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    const t = e.changedTouches[i];
+                    
+                    // MOVEMENT (Joystick)
+                    if (t.identifier === moveTouchId) {
+                        const dx = t.pageX - moveOriginX;
+                        const dy = t.pageY - moveOriginY;
+                        // Normalize to -1...1 range, capped at 50px drag
+                        touchInput.x = Math.max(-1, Math.min(1, dx / 40));
+                        touchInput.z = Math.max(-1, Math.min(1, dy / 40));
+                    } 
+                    
+                    // LOOK (1:1 Direct control, no inertia)
+                    else if (t.identifier === lookTouchId) {
+                        const deltaX = t.pageX - lastLookX;
+                        const deltaY = t.pageY - lastLookY;
+                        
+                        // Apply rotation immediately
+                        camera.rotation.y -= deltaX * lookSpeed;
+                        camera.rotation.x -= deltaY * lookSpeed;
+                        
+                        // Clamp vertical look (prevent flipping over)
+                        camera.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, camera.rotation.x));
+                        
+                        // Reset order for proper rotation
+                        camera.rotation.order = "YXZ"; 
+
+                        lastLookX = t.pageX;
+                        lastLookY = t.pageY;
+                    }
+                }
+            }, {passive: false});
+
+            document.addEventListener('touchend', (e) => {
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    const t = e.changedTouches[i];
+                    if (t.identifier === moveTouchId) {
+                        moveTouchId = -1;
+                        touchInput.x = 0;
+                        touchInput.z = 0;
+                    } else if (t.identifier === lookTouchId) {
+                        lookTouchId = -1;
+                    }
+                }
+            });
+        }
+
+        // --- SETTINGS LOGIC ---
+        document.getElementById('settingsIcon').addEventListener('click', () => {
+            const panel = document.getElementById('settingsPanel');
+            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.getElementById('sizeSlider').addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+
+            settings.pointSize = val; 
+
+            if(pointsMesh) pointsMesh.material.size = val;
+            document.getElementById('sizeVal').innerText = val.toFixed(2);
+            raycaster.params.Points.threshold = val / 2.5; 
+        });
+
+        document.getElementById('speedSlider').addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            settings.speed = val;
+            document.getElementById('speedVal').innerText = val.toFixed(2);
+        });
+
+        document.getElementById('shapeSelect').addEventListener('change', (e) => {
+            if(!pointsMesh) return;
+            if(e.target.value === 'circle') {
+                pointsMesh.material.map = createCircleTexture();
+                pointsMesh.material.alphaTest = 0.5;
+            } else {
+                pointsMesh.material.map = null;
+                pointsMesh.material.alphaTest = 0;
+            }
+            pointsMesh.material.needsUpdate = true;
+        });
+
+        document.getElementById('goBtn').addEventListener('click', () => {
+            const val = document.getElementById('searchInput').value.trim().toLowerCase();
+            if(!val) return;
+            const found = colorData.find(c => c.name.toLowerCase() === val || c.hex.toLowerCase() === val);
+            if(found) {
+                camera.position.set(found.x, found.y, found.z + 20);
+                camera.lookAt(found.x, found.y, found.z);
+                document.getElementById('settingsPanel').style.display = 'none';
+                if(!isMobile) controls.lock();
+            } else {
+                alert("Color not found.");
+            }
+        });
+
+        function createCircleTexture() {
+            const size = 128; 
+            const canvas = document.createElement('canvas');
+            canvas.width = size; canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, (size/2) - 2, 0, Math.PI*2);
+            ctx.fill();
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // --- PHYSICS ---
+        const clock = new THREE.Clock();
+
+        function updatePhysics(delta) {
+            // Apply Friction
+            velocity.multiplyScalar(settings.friction);
+
+            const camLook = new THREE.Vector3();
+            camera.getWorldDirection(camLook);
+            
+            const camRight = new THREE.Vector3();
+            camRight.crossVectors(camLook, camera.up).normalize();
+
+            // Calculate Inputs
+            const keyFwd = Number(move.fwd) - Number(move.bwd);
+            const keySide = Number(move.right) - Number(move.left);
+            const mobFwd = -touchInput.z; 
+            const mobSide = touchInput.x;
+
+            const totalFwd = keyFwd + mobFwd;
+            const totalSide = keySide + mobSide;
+
+            const accel = settings.speed * 15.0 * delta;
+
+            // Apply forces relative to camera look
+            if (Math.abs(totalFwd) > 0) velocity.addScaledVector(camLook, totalFwd * accel);
+            if (Math.abs(totalSide) > 0) velocity.addScaledVector(camRight, totalSide * accel);
+
+            if (move.up) velocity.y += accel;
+            if (move.down) velocity.y -= accel;
+
+            camera.position.add(velocity);
+        }
+
+        // --- LOAD DATA ---
+        const toLab = converter('lab');
+        const colorData = []; 
+        let pointsMesh = null;
+
+        async function  refresh3DUniverse() {
+            // 1. Clear old dots if changing lists
+            if (pointsMesh) {
+                scene.remove(pointsMesh);
+                pointsMesh.geometry.dispose();
+                pointsMesh.material.dispose();
+            }
+            
+            // 2. Clear array data
+            colorData.length = 0; 
+            const positions = [];
+            const colors = [];
+
+            // 3. Build new universe from ALL_COLORS
+            ALL_COLORS.forEach(c => {
+                const parsed = parse(c.hex);
+                if (parsed) {
+                    const lab = toLab(parsed);
+                    const x = lab.a * 3; 
+                    const y = (lab.l - 50) * 3; 
+                    const z = lab.b * 3; 
+
+                    positions.push(x, y, z);
+                    const color = new THREE.Color(c.hex);
+                    colors.push(color.r, color.g, color.b);
+                    colorData.push({ name: c.name, hex: c.hex, x, y, z });
+                }
+            });
+
+            // 4. Create new mesh
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            
+            const material = new THREE.PointsMaterial({ 
+                size: settings.pointSize, 
+                vertexColors: true, 
+                sizeAttenuation: true,
+                map: createCircleTexture(), 
+                alphaTest: 0.5  
+            });
+
+            pointsMesh = new THREE.Points(geometry, material);
+            scene.add(pointsMesh);
+            document.getElementById('loading').style.display = 'none';
+
+            if (isInitialUniverseLoad) {
+                handleTeleport();
+                isInitialUniverseLoad = false; // Disable camera reset for future list changes
+            }
+        }
+
+            function handleTeleport() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const goToHex = urlParams.get('goto');
+
+                if (goToHex) {
+
+                    if (externalMarker) {
+                        scene.remove(externalMarker);
+                        externalMarker = null;
+                    }
+                    // 1. Try to find it in the current list
+                    const match = colorData.find(c => c.hex.toLowerCase() === goToHex.toLowerCase());
+                    
+                    if (match) {
+                        camera.position.set(match.x, match.y, match.z + 45);
+                        camera.lookAt(match.x, match.y, match.z);
+                        document.getElementById('colorName').innerText = match.name;
+                        document.getElementById('colorHex').innerText = match.hex;
+                    } else {
+                        // 2. If not in list, calculate coordinates manually from hex
+                        const parsed = parse(goToHex);
+                        if (parsed) {
+                            const lab = toLab(parsed);
+                            const x = lab.a * 3; 
+                            const y = (lab.l - 50) * 3; 
+                            const z = lab.b * 3; 
+
+                            const markerGroup = new THREE.Group();
+            
+                            const sphere = new THREE.Mesh(
+                                new THREE.SphereGeometry(3, 16, 16),
+                                new THREE.MeshBasicMaterial({ color: goToHex })
+                            );
+                            markerGroup.add(sphere);
+
+                            // Add a white "Target Ring" to make it easy to find
+                            const ring = new THREE.Mesh(
+                                new THREE.TorusGeometry(5, 0.5, 8, 32),
+                                new THREE.MeshBasicMaterial({ color: 0xffffff })
+                            );
+                            markerGroup.add(ring);
+
+                            markerGroup.position.set(x, y, z);
+                            scene.add(markerGroup);
+                            externalMarker = markerGroup;
+
+                            camera.position.set(x, y, z + 45);
+                            camera.lookAt(x, y, z);
+                                
+                            // Show that it's an external color
+                            document.getElementById('colorName').innerText = "Unnamed Color";
+                            document.getElementById('colorHex').innerText = goToHex.toUpperCase();
+                        }
+                    }
+                    camera.rotation.order = 'YXZ'; 
+                    document.getElementById('instructions').style.display = 'none';
+                    document.getElementById('hud').style.display = 'block';
+                } else {
+                    camera.position.set(0, 0, 250);
+                    camera.rotation.set(0, 0, 0);
+                }
+            }   
+
+        setupDictionarySelector('dictSelectorContainer', () => {
+            // This callback runs immediately, and also every time you change the dropdown
+            refresh3DUniverse();
+        });
+
+        // --- LABELS ---
+        function createTextSprite(message, color) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 512; canvas.height = 256; // Higher res
+            ctx.font = "Bold 80px Arial";
+            ctx.fillStyle = color;
+            ctx.textAlign = "center";
+            ctx.fillText(message, 256, 150);
+            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(canvas) }));
+            sprite.scale.set(80, 40, 1);
+            return sprite;
+        }
+
+        function addLabels() {
+            const g = new THREE.Group();
+            const gridHelper = new THREE.GridHelper(1000, 20, 0x222222, 0x111111);
+            gridHelper.position.y = -250;
+            g.add(gridHelper);
+
+            const lTop = createTextSprite("+Lightness", "#ffffff"); lTop.position.set(0, 250, 0); g.add(lTop);
+            const lBot = createTextSprite("-Lightness", "#555555"); lBot.position.set(0, -250, 0); g.add(lBot);
+            const aPos = createTextSprite("+A (Red)", "#ff4444"); aPos.position.set(450, 0, 0); g.add(aPos);
+            const aNeg = createTextSprite("-A (Green)", "#44ff44"); aNeg.position.set(-450, 0, 0); g.add(aNeg);
+            const bPos = createTextSprite("+B (Yellow)", "#ffff44"); bPos.position.set(0, 0, 450); g.add(bPos);
+            const bNeg = createTextSprite("-B (Blue)", "#4444ff"); bNeg.position.set(0, 0, -450); g.add(bNeg);
+
+            scene.add(g);
+        }
+        addLabels();
+
+        // --- HOVER ---
+        const lookVector = new THREE.Vector3();
+        function checkHover() {
+            // 1. If we haven't loaded the mesh or user isn't locked (on PC), stop.
+            if (!pointsMesh || (!isMobile && !controls.isLocked)) return;
+
+            // 2. Shoot the laser
+            raycaster.setFromCamera(center, camera);
+
+            // 3. Check for hits
+            // This calculates if the laser hits any point in our pointsMesh
+            const intersects = raycaster.intersectObject(pointsMesh);
+
+            if (intersects.length > 0) {
+                // 4. Get the closest hit (intersects is sorted by distance automatically)
+                // .index corresponds exactly to the order in our colorData array
+                const index = intersects[0].index;
+                const c = colorData[index];
+
+                // 5. Update HUD
+                document.getElementById('colorName').innerText = c.name;
+                document.getElementById('colorHex').innerText = c.hex;
+                document.getElementById('colorName').style.color = c.hex;
+                
+                // Highlight Crosshair
+                document.getElementById('crosshair').style.width = "16px";
+                document.getElementById('crosshair').style.height = "16px";
+            } else {
+                // 6. Reset HUD
+                document.getElementById('colorName').innerText = "---";
+                document.getElementById('colorHex').innerText = "---";
+                document.getElementById('colorName').style.color = "white";
+                
+                document.getElementById('crosshair').style.width = "8px";
+                document.getElementById('crosshair').style.height = "8px";
+            }
+        }
+
+        // --- UPDATE THE ANIMATE LOOP ---
+function animate() {
+    requestAnimationFrame(animate);
+    const delta = Math.min(clock.getDelta(), 0.1);
+    
+    updatePhysics(delta);
+    checkHover();
+    
+    // 1. Render Main Scene
+    renderer.render(scene, camera);
+    
+    // 2. Sync Compass Group rotation
+    // We take the world rotation of your main camera and apply the INVERSE to the arrows.
+    // This makes the arrows look like they are "fixed" in space while you turn.
+    compassGroup.quaternion.copy(camera.quaternion).invert();
+    
+    // 3. Render Compass
+    compassRenderer.render(compassScene, compassCamera);
+    
+    if (stats) stats.update();
+}
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+             
+
+            
+    </script>
+</body>
+</html>

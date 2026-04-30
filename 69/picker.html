@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H57NFG20DE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H57NFG20DE');
+    </script>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Search Console Meta Tags -->
+    <title>Color Name Picker - Find Colors from Images | Colordle</title>
+    <meta name="description" content="Pick a color from any image to find its closest color name. Supports multiple color dictionaries including English, Turkish, French, German, XKCD, and more.">
+    <meta name="keywords" content="color name picker, image color picker, find color name, hex to name, color dictionary, XKCD colors">
+    
+    <!-- Open Graph / Social Sharing Meta Tags -->
+    <meta property="og:title" content="Color Name Picker">
+    <meta property="og:description" content="Upload an image to find the exact color name from English, Turkish, French, and German dictionaries.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://osmanyo.github.io/colordle/picker.html">
+
+
+
+    <style>
+        :root { --bg: #121213; --text: #fff; --accent: #00d2ff; --border: #3a3a3c; }
+        body { 
+            background: var(--bg); color: var(--text); font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+        }
+
+        /* --- TOOLBAR --- */
+        #toolbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 20px; background: rgba(20, 20, 20, 0.95);
+            border-bottom: 1px solid var(--border); z-index: 10;
+        }
+        .toolbar-group { display: flex; align-items: center; gap: 8px; }
+
+        .btn {
+            background: var(--accent); color: #000; padding: 6px 12px; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px;
+            border: none; text-decoration: none; display: inline-flex; align-items: center;
+        }
+        .btn-outline { background: transparent; color: var(--text); border: 1px solid #555; }
+        
+        .control-panel { display: flex; align-items: center; gap: 6px; background: #000; padding: 4px 10px; border-radius: 6px; border: 1px solid #444;}
+        select { background: transparent; color: white; border: none; font-size: 12px; cursor: pointer; outline: none; }
+        input[type="range"] { width: 60px; cursor: pointer; }
+        #sampleDisplay { font-size: 11px; color: #aaa; width: 30px; text-align: right; font-family: monospace;}
+
+        /* --- IMAGE AREA --- */
+        #imageContainer { 
+            flex-grow: 1; display: flex; justify-content: center; align-items: center;
+            background: #000; position: relative; overflow: hidden;
+        }
+        img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        #emptyState { position: absolute; color: #666; text-align: center; pointer-events: none; display: none;}
+
+        /* --- FLOATING RESULT BOX --- */
+        #resultBox { 
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: rgba(26, 26, 27, 0.95); border: 1px solid var(--border); 
+            border-radius: 12px; display: none; text-align: center; width: 340px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            padding: 20px; z-index: 100; transition: background 0.3s;
+        }
+        
+        .swatches { display: flex; justify-content: space-around; margin-bottom: 15px; }
+        .swatch-item { display: flex; flex-direction: column; align-items: center; width: 50%; }
+        .circle { width: 65px; height: 65px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.1); margin-bottom: 10px; }
+        
+        .color-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+        .color-hex { font-family: monospace; font-size: 13px; opacity: 0.7; }
+        
+        #closeResult { position: absolute; top: 10px; right: 15px; cursor: pointer; opacity: 0.5; font-size: 18px; }
+        #accuracy { font-size: 12px; opacity: 0.6; margin: 0; padding-top: 10px; border-top: 1px solid rgba(128,128,128,0.2); }
+    </style>
+</head>
+<body>
+
+    <div id="toolbar">
+        <div class="toolbar-group">
+            <a href="index.html" class="btn btn-outline">← Back</a>
+        </div>
+        
+        <div class="toolbar-group">
+            <!-- DICTIONARY SELECTOR (Using Pizza API Keys) -->
+            <div id="dictSelectorContainer" class="control-panel"></div>
+
+            <div class="control-panel">
+                <span style="font-size: 11px; color: #666;">Area:</span>
+                <input type="range" id="sampleSlider" min="1" max="61" step="2" value="1">
+                <span id="sampleDisplay">1px</span>
+            </div>
+            
+            <label class="btn" for="fileInput">Upload</label>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        </div>
+    </div>
+
+    <div id="imageContainer">
+        <div id="emptyState">
+            <p>Upload a photo to start picking</p>
+        </div>
+        <img id="displayImg" src="berni-wittmann-GaffdtJ2aFM-unsplash.jpg">
+    </div>
+
+    <div style="position: absolute; bottom: 8px; width: 100%; text-align: center; font-size: 10px; color: #444; pointer-events: none;">
+        Images are processed locally and never sent to a server.
+    </div>
+
+    <div id="resultBox">
+        <div id="closeResult">✕</div>
+        <div class="swatches">
+            <div class="swatch-item">
+                <div id="pickedCircle" class="circle"></div>
+                <div id="pickedTitle" class="color-title">Your Pick</div>
+                <div id="pickedHex" class="color-hex">#000000</div>
+            </div>
+            <div class="swatch-item">
+                <div id="matchCircle" class="circle"></div>
+                <div id="matchName" class="color-title">--</div>
+                <div id="matchHex" class="color-hex">#000000</div>
+            </div>
+        </div>
+        <p id="accuracy"></p>
+
+        <button id="pickerTeleportBtn" class="btn" style="width: 100%; margin-top: 15px; justify-content: center; gap: 8px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+            View Similar Colors in 3D
+        </button>
+    </div>
+
+    <canvas id="procCanvas" style="display:none;"></canvas>
+
+    <script type="module">
+        import { converter, differenceCiede2000, parse } from 'https://esm.sh/culori@3';
+        import { ALL_COLORS, setupDictionarySelector } from './dictionary.js';
+
+        const toLab = converter('lab');
+        const calcDeltaE = differenceCiede2000();
+        let lastPickedHex = null;
+
+        const displayImg = document.getElementById('displayImg');
+        const canvas = document.getElementById('procCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const sampleSlider = document.getElementById('sampleSlider');
+        const imageContainer = document.getElementById('imageContainer');
+
+
+        setupDictionarySelector('dictSelectorContainer', () => {
+            // This callback runs whenever the list finishes loading or changes
+            if (lastPickedHex) processColor(lastPickedHex);
+        });           
+
+
+
+        // --- CANVAS SETUP ---
+        function setupCanvas() {
+            if (!displayImg.naturalWidth) return;
+            document.getElementById('emptyState').style.display = 'none';
+            canvas.width = displayImg.naturalWidth;
+            canvas.height = displayImg.naturalHeight;
+            ctx.drawImage(displayImg, 0, 0);
+            updateCursor();
+        }
+
+        if (displayImg.complete) setupCanvas();
+        else displayImg.onload = setupCanvas;
+
+        document.getElementById('fileInput').onchange = (e) => {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                displayImg.onload = () => { setupCanvas(); displayImg.onload = null; };
+                displayImg.src = ev.target.result;
+                document.getElementById('resultBox').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // --- DYNAMIC CURSOR ---
+        function updateCursor() {
+            const size = parseInt(sampleSlider.value);
+            document.getElementById('sampleDisplay').innerText = size === 1 ? "1px" : `${size}px`;
+            if (!displayImg.src || size === 1) { imageContainer.style.cursor = 'crosshair'; return; }
+            
+            const rect = displayImg.getBoundingClientRect();
+            const screenDiameter = Math.max(4, Math.min((size * (rect.width / displayImg.naturalWidth)), 128));
+            const r = screenDiameter / 2;
+            
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${screenDiameter}" height="${screenDiameter}" viewBox="0 0 ${screenDiameter} ${screenDiameter}"><circle cx="${r}" cy="${r}" r="${r - 1}" fill="none" stroke="white" stroke-width="2" /><circle cx="${r}" cy="${r}" r="${r - 1}" fill="none" stroke="black" stroke-width="0.5" stroke-dasharray="2,2" /></svg>`;
+            imageContainer.style.cursor = `url('data:image/svg+xml;base64,${btoa(svg)}') ${r} ${r}, crosshair`;
+        }
+        sampleSlider.oninput = updateCursor;
+
+        // --- CIRCULAR SAMPLING ---
+        displayImg.onclick = (e) => {
+            if(!displayImg.src) return;
+            const rect = displayImg.getBoundingClientRect();
+            const centerX = (e.clientX - rect.left) / rect.width * displayImg.naturalWidth;
+            const centerY = (e.clientY - rect.top) / rect.height * displayImg.naturalHeight;
+            const size = parseInt(sampleSlider.value);
+            const radius = Math.floor(size / 2);
+
+            const startX = Math.max(0, Math.round(centerX) - radius);
+            const startY = Math.max(0, Math.round(centerY) - radius);
+            const endX = Math.min(canvas.width, Math.round(centerX) + radius + 1);
+            const endY = Math.min(canvas.height, Math.round(centerY) + radius + 1);
+            
+            const imgData = ctx.getImageData(startX, startY, endX - startX, endY - startY).data;
+            let r=0, g=0, b=0, count=0;
+
+            for (let py = startY; py < endY; py++) {
+                for (let px = startX; px < endX; px++) {
+                    const dx = px - Math.round(centerX), dy = py - Math.round(centerY);
+                    if (dx*dx + dy*dy <= radius*radius || size === 1) {
+                        const i = ((py - startY) * (endX - startX) + (px - startX)) * 4;
+                        r += imgData[i]; g += imgData[i+1]; b += imgData[i+2]; count++;
+                    }
+                }
+            }
+            const hex = "#" + (1 << 24 | Math.round(r/count) << 16 | Math.round(g/count) << 8 | Math.round(b/count)).toString(16).slice(1);
+            lastPickedHex = hex;
+            processColor(hex);
+        };
+
+        // --- SMART CONTRAST UI ---
+        function processColor(pickHex) {
+            const pickLab = toLab(parse(pickHex));
+            let nearest = null, minDiff = Infinity;
+            ALL_COLORS.forEach(c => {
+                const diff = calcDeltaE(pickLab, toLab(parse(c.hex)));
+                if(diff < minDiff) { minDiff = diff; nearest = c; }
+            });
+
+            const box = document.getElementById('resultBox');
+            box.style.display = 'block';
+            document.getElementById('pickedCircle').style.backgroundColor = pickHex;
+            document.getElementById('pickedTitle').style.color = pickHex;
+            document.getElementById('pickedHex').innerText = pickHex.toUpperCase();
+            document.getElementById('matchCircle').style.backgroundColor = nearest.hex;
+            document.getElementById('matchName').innerText = nearest.name;
+            document.getElementById('matchName').style.color = nearest.hex;
+            document.getElementById('matchHex').innerText = nearest.hex.toUpperCase();
+            document.getElementById('accuracy').innerText = `Visual Match: ${Math.max(0, 100 - minDiff).toFixed(1)}%`;
+
+            // Contrast Logic (YIQ)
+            const rgb = parse(pickHex);
+            const yiq = ((rgb.r*255*299) + (rgb.g*255*587) + (rgb.b*255*114)) / 1000;
+            if (yiq < 128) {
+                box.style.background = 'rgba(245, 245, 245, 0.95)';
+                box.style.color = '#111';
+            } else {
+                box.style.background = 'rgba(26, 26, 27, 0.95)';
+                box.style.color = '#fff';
+            }
+
+            const teleportBtn = document.getElementById('pickerTeleportBtn');
+            teleportBtn.onclick = () => {
+                window.location.href = `explore.html?goto=${encodeURIComponent(pickHex)}`;
+            };
+        }
+        document.getElementById('closeResult').onclick = () => document.getElementById('resultBox').style.display='none';
+    </script>
+</body>
+</html>
